@@ -24,6 +24,12 @@ public class MarkupCalculator {
 	 * @param categoryMarkups A mapping between categories and their associated markups.
 	 */
 	public MarkupCalculator(float flatMarkup, float personMarkup, Map<String, Float> categoryMarkups) {
+		if (flatMarkup < 0) {
+			throw new IllegalArgumentException("flatMarkup cannot be negative");
+		}
+		if (personMarkup < 0) {
+			throw new IllegalArgumentException("personMarkup cannot be negative");
+		}
 		if (categoryMarkups == null) {
 			throw new IllegalArgumentException("categoryMarkups cannot be null");
 		}
@@ -41,11 +47,11 @@ public class MarkupCalculator {
 	 * @return
 	 */
 	public BigDecimal calculateCost(BigDecimal basePrice, int people, String category) {
-		if (basePrice == null) {
-			throw new IllegalArgumentException("basePrice cannot be null");
+		if (basePrice == null || basePrice.compareTo(BigDecimal.ZERO) < 0) {
+			throw new IllegalArgumentException("basePrice must be non-null and non-negative");
 		}
-		if (category == null) {
-			throw new IllegalArgumentException("category cannot be null");
+		if (people < 0) {
+			throw new IllegalArgumentException("people cannot be negative");
 		}
 		
 		basePrice = basePrice.add(this.calculateMarkup(basePrice, this.flatMarkup));

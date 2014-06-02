@@ -1,5 +1,6 @@
 package com.nulogy.java.nupackmarkupcalculator;
 import java.math.BigDecimal;
+import java.util.HashMap;
 
 import junit.framework.TestCase;
 
@@ -17,6 +18,29 @@ public class MarkupCalculatorTest extends TestCase {
 	}
 	
 	@Test
+	public void testCalculatorNotNull() {
+		TestCase.assertNotNull(this.markupCalculator);
+	}
+	
+	@Test
+	public void testCreationNegativeFlatMarkup() {
+		try {
+			new MarkupCalculator(-0.1f, 0.1f, new HashMap<String, Float>());
+			TestCase.fail();
+		} catch (IllegalArgumentException e) {
+		}
+	}
+	
+	@Test
+	public void testCreationNegativePersonMarkup() {
+		try {
+			new MarkupCalculator(0.1f, -0.1f, new HashMap<String, Float>());
+			TestCase.fail();
+		} catch (IllegalArgumentException e) {
+		}
+	}
+	
+	@Test
 	public void testCreationNullMarkupCategories() {
 		try {
 			new MarkupCalculator(0.1f, 0.1f, null);
@@ -24,14 +48,9 @@ public class MarkupCalculatorTest extends TestCase {
 		} catch (IllegalArgumentException e) {
 		}
 	}
-	
-	@Test
-	public void testNotNull() {
-		TestCase.assertNotNull(this.markupCalculator);
-	}
 
 	@Test
-	public void testCorrectOutput1() {
+	public void testCalculationCorrectOutput1() {
 		BigDecimal cost = this.markupCalculator.calculateCost(
 				new BigDecimal("1299.99"), 3, "food"); 
 		
@@ -39,7 +58,7 @@ public class MarkupCalculatorTest extends TestCase {
 	}
 	
 	@Test
-	public void testCorrectOutput2() {
+	public void testCalculationCorrectOutput2() {
 		BigDecimal cost = this.markupCalculator.calculateCost(
 				new BigDecimal("5432.00"), 1, "drugs"); 
 		
@@ -47,7 +66,7 @@ public class MarkupCalculatorTest extends TestCase {
 	}
 	
 	@Test
-	public void testCorrectOutput3() {
+	public void testCalculationCorrectOutput3() {
 		BigDecimal cost = this.markupCalculator.calculateCost(
 				new BigDecimal("12456.95"), 4, "books"); 
 		
@@ -55,7 +74,7 @@ public class MarkupCalculatorTest extends TestCase {
 	}
 	
 	@Test
-	public void testNullBasePriceException() {
+	public void testCalculationNullBasePriceException() {
 		try {
 			this.markupCalculator.calculateCost(null, 1, "books");
 			TestCase.fail();
@@ -64,9 +83,18 @@ public class MarkupCalculatorTest extends TestCase {
 	}
 	
 	@Test
-	public void testNullCategoryException() {
+	public void testCalculationNegativeBasePriceException() {
 		try {
-			this.markupCalculator.calculateCost(new BigDecimal("1299.99"), 1, null);
+			this.markupCalculator.calculateCost(new BigDecimal("-123.45"), 1, "books");
+			TestCase.fail();
+		} catch (IllegalArgumentException e) {
+		}
+	}
+	
+	@Test
+	public void testCalculationNegativePeopleException() {
+		try {
+			this.markupCalculator.calculateCost(new BigDecimal("123.45"), -1, "books");
 			TestCase.fail();
 		} catch (IllegalArgumentException e) {
 		}
