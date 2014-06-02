@@ -7,14 +7,13 @@ import org.junit.Test;
 
 
 public class MarkupCalculatorTest extends TestCase {
-	
 	private MarkupCalculator markupCalculator;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		this.markupCalculator = NuPack.createMarkupCalculator();
+		this.markupCalculator = NuPackFactory.createMarkupCalculator();
 	}
 	
 	@Test

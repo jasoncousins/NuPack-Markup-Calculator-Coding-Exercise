@@ -3,10 +3,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class NuPack {
+/**
+ * Factory that creates the NuPack markup calculator.
+ */
+public final class NuPackFactory {
+	/** The flat markup to apply to the base price of projects. */
 	private static final float FLAT_MARKUP = 0.05f;
+	
+	/** The markup per person to apply. */
 	private static final float PERSON_MARKUP = 0.012f;
 	
+	/**
+	 * @return A NuPack markup calculator.
+	 */
 	public static MarkupCalculator createMarkupCalculator() {
 		Map<String, Float> categoryMarkups = new HashMap<String, Float>();
 		categoryMarkups.put("drugs", 0.075f);
